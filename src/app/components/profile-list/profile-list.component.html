@@ -1,0 +1,51 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Tela Inicial</a></li>
+    <li class="breadcrumb-item active">Perfis</li>
+  </ol>
+</nav>
+
+<a
+  [routerLink]="['/profiles/new']"
+  mat-raised-button
+  color="primary"
+  style="float: right"
+  id="add"
+  >Adicione um Perfil</a
+>
+
+<h2>{{ title }}</h2>
+@if (loading) {
+<div>
+  <p>Loading...</p>
+</div>
+} @else { @if (feedback.message) {
+<div class="alert alert-{{ feedback.type }}">{{ feedback.message }}</div>
+}
+<table mat-table [dataSource]="profiles">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.id }} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="descricao">
+    <mat-header-cell *matHeaderCellDef> Descricao </mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.descricao }} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <a
+        [routerLink]="['../profiles', item.id]"
+        mat-raised-button
+        color="accent"
+        >Editar</a
+      >&nbsp;
+      <button (click)="delete(item)" mat-button color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</table>
+}
